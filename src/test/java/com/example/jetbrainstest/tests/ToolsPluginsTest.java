@@ -1,5 +1,6 @@
 package com.example.jetbrainstest.tests;
 
+import com.example.jetbrainstest.pages.ToolPlaginsPage;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -12,16 +13,16 @@ public class ToolsPluginsTest extends BaseTest {
 
     @BeforeEach
     @Override
-
     public void setUp(){
         super.setUp();
         getDriver().get("https://www.jetbrains.com/");
-        toolsPluginsTest = new ToolsPluginsTest();
-    }
 
+    }
     @Test
     @DisplayName("Проверка кнопки на активность")
     public void buttonCheck(){
-        Assertions.assertTrue(toolsPluginsTest.checkToolsPlaginsIsClickable);
+
+        Assertions.assertTrue(toolPlaginsPage.checkToolsPlaginsIsClickable());
     }
+
 }
