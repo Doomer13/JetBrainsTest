@@ -2,6 +2,7 @@ package com.example.jetbrainstest.tests;
 
 import com.example.jetbrainstest.pages.CodeWithMePage;
 import com.example.jetbrainstest.pages.PyCharmPage;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,6 +13,7 @@ public class CodeWithMeTest extends BaseTest {
 
     @BeforeEach
     @Override
+    @Step ("переход в Тест страницы <Code With Me>")
     public void setUp(){
         super.setUp();
         getDriver().get("https://www.jetbrains.com/ru-ru/code-with-me/");

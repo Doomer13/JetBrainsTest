@@ -1,6 +1,7 @@
 package com.example.jetbrainstest.pages;
 
 import com.example.jetbrainstest.AllureLogger;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -20,17 +21,20 @@ public class CodeWithMePage {
     @FindBy(xpath = "//a[1][@target = '_self']")
     private WebElement LocalSolutions;
 
-
+    @Step("Проверка кликабельности кнопки <Code With Me>")
     public Boolean CodeWithMeClickable(){
         LOG.infoWithScreenshot("Проверка доступности кнопки <Code With Me>");
         driver.get("https://www.jetbrains.com/ru-ru/code-with-me/");
         return CodeWithMeButton.isEnabled();
     };
+
+    @Step("Проверка кликабельности кнопки <Локальные решени>")
     public Boolean LocalSolutionsClickable(){
-        LOG.infoWithScreenshot("Проверка доступности кнопки <Kокальные решения>");
+        LOG.infoWithScreenshot("Проверка доступности кнопки <Локальные решения>");
         driver.get("https://www.jetbrains.com/ru-ru/code-with-me/");
         return CodeWithMeButton.isEnabled();
     };
+
     public String CodeWithMeCheckUrl(){
         driver.get("https://www.jetbrains.com/ru-ru/code-with-me/on-prem/");
         CodeWithMeButton.click();

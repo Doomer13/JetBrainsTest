@@ -16,16 +16,10 @@ public class BaseTest {
     private static WebDriver driver;
     protected final AllureLogger LOG;
 
-
-
     @BeforeEach
     public void setUp() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.EAGER);
-
-        chromeOptions.addArguments("--disable-notifications");
-        chromeOptions.addArguments("--disable-infobars");
-
         driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
