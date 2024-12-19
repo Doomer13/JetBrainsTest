@@ -1,7 +1,7 @@
 package com.example.jetbrainstest.tests;
 
 import com.example.jetbrainstest.AllureLogger;
-import com.example.jetbrainstest.pages.ToolPlaginsPage;
+import com.example.jetbrainstest.pages.CodeWithMePage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.PageLoadStrategy;
@@ -16,17 +16,19 @@ public class BaseTest {
     private static WebDriver driver;
     protected final AllureLogger LOG;
 
-    ToolPlaginsPage toolPlaginsPage =new ToolPlaginsPage(driver);
+
 
     @BeforeEach
     public void setUp() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.EAGER);
+
+        chromeOptions.addArguments("--disable-notifications");
+        chromeOptions.addArguments("--disable-infobars");
+
         driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
-
 
     }
 
