@@ -262,4 +262,5 @@ public class CodeWithMeTest extends BaseTest {
             assertEquals("The JetBrains team", codeWithMePage.waitAnswerEmail());
         }
     }
+
 }
