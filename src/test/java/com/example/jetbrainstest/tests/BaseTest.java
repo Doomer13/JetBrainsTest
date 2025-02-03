@@ -1,7 +1,6 @@
 package com.example.jetbrainstest.tests;
 
 import com.example.jetbrainstest.AllureLogger;
-import com.example.jetbrainstest.pages.CodeWithMePage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.PageLoadStrategy;
