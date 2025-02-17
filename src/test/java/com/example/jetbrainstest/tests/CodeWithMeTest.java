@@ -114,46 +114,37 @@ public class CodeWithMeTest extends BaseTest {
 
 
     // Страница Support
-    @Nested
-    class NestedTestBlock1 extends BaseTest {
-        @BeforeEach
-        void setUp1() {
-            super.setUp();
-            codeWithMePage = new CodeWithMePage(getDriver());
-            getDriver().get("https://www.jetbrains.com/ru-ru/support/sales/#email-sales");
-        }
 
-        @Test
-        @DisplayName("Потверждение отсутвия в списке поддержки пункта <Россия>")
-        public void СonfirmationOfabsence() {
-            supportPage.listCountry();
-            //Assertions.assertFalse(supportPage.сheckRussiaInListCountry(), "России там быть НЕ должно");
-            //supportPage.сheckCountryInListCountry("Украина");
-            //supportPage.streamCountryMethod();
-        }
+    @Test
+    @DisplayName("Потверждение отсутвия в списке поддержки пункта <Россия>")
+    public void СonfirmationOfabsence() {
+        supportPage.listCountry();
+        //Assertions.assertFalse(supportPage.сheckRussiaInListCountry(), "России там быть НЕ должно");
+        //supportPage.сheckCountryInListCountry("Украина");
+        //supportPage.streamCountryMethod();
+    }
 
-        @Test
-        @DisplayName("Проверка общего количесва стран в списвке")
-        public void countingListCountry() {
-            System.out.println(supportPage.countCountry());
-            Assertions.assertEquals(237, supportPage.countCountry(), "Количество стран не равно 237");
-        }
+    @Test
+    @DisplayName("Проверка общего количесва стран в списвке")
+    public void countingListCountry() {
+        System.out.println(supportPage.countCountry());
+        Assertions.assertEquals(237, supportPage.countCountry(), "Количество стран не равно 237");
+    }
 
-        @RepeatedTest(3)
-        @DisplayName("Проверка смены полей в форме заполнения в зависимости от выбора Мы вам напишем/ мы вам перезвоним")
-        public void chosenTest() {
-            getDriver().get("https://www.jetbrains.com/ru-ru/support/sales/#request-call");
-            Assertions.assertEquals(1, supportPage.notNecessarilyPage(), "Поля не верны");
-        }
+    @RepeatedTest(3)
+    @DisplayName("Проверка смены полей в форме заполнения в зависимости от выбора Мы вам напишем/ мы вам перезвоним")
+    public void chosenTest() {
+        getDriver().get("https://www.jetbrains.com/ru-ru/support/sales/#request-call");
+        Assertions.assertEquals(1, supportPage.notNecessarilyPage(), "Поля не верны");
+    }
 
 
-        @Test
-        @DisplayName("Выбор страны/региона и проверка отображения текста в соответствующем поле")
-        public void displayCountryField() {
-            getDriver().get("https://www.jetbrains.com/ru-ru/support/sales/#request-call");
-            assertEquals("Нидерланды", supportPage.pressCountry("Нидерланды"), "Страна не отображенна");
+    @Test
+    @DisplayName("Выбор страны/региона и проверка отображения текста в соответствующем поле")
+    public void displayCountryField() {
+        getDriver().get("https://www.jetbrains.com/ru-ru/support/sales/#request-call");
+        assertEquals("Нидерланды", supportPage.pressCountry("Нидерланды"), "Страна не отображенна");
 
-        }
     }
 
     // Активности Кнопок
