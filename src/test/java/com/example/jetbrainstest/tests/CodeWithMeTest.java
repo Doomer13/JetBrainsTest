@@ -193,35 +193,32 @@ public class CodeWithMeTest extends BaseTest {
         Assertions.assertTrue(codeWithMePage.isВisplayedTextAfterClick4());
     }
 
-    @Nested
-    class NestedTestBlock2 extends BaseTest {
-        @BeforeEach
-        void setUp1() {
-            super.setUp();
-            codeWithMePage = new CodeWithMePage(getDriver());
-            getDriver().get("https://www.jetbrains.com/ru-ru/support/sales/#email-sales");
-        }
 
-        @Test
-        @DisplayName("Переход на страницу веб -страницу Code With Me")
-        public void jumpInCodeWithMeWebSpace() {
-            getDriver().get("https://www.jetbrains.com/");
-            Assertions.assertEquals(jetBrainsPage.CodeWithMeCheckUrl(), "https://www.jetbrains.com/code-with-me/",
-                    "URL не равен ожидаемому");
 
-        }
+
+
+    @Test
+    @DisplayName("Переход на страницу веб -страницу Code With Me")
+    public void jumpInCodeWithMeWebSpace() {
+        getDriver().get("https://www.jetbrains.com/");
+        codeWithMePage.closeCookiesBunner();
+        Assertions.assertEquals(jetBrainsPage.CodeWithMeCheckUrl(), "https://www.jetbrains.com/code-with-me/",
+                "URL не равен ожидаемому");
+
+    }
 
         @Test
         @DisplayName("Смена Языка")
         public void changelanguageTest() {
             getDriver().get("https://www.jetbrains.com/");
+            codeWithMePage.closeCookiesBunner();
             Assertions.assertEquals("https://www.jetbrains.com/ru-ru/", jetBrainsPage.CheckUrlAfterСhangeLanguage(),
                     "URL не равен ожидаемому");
 
         }
 
         @Test
-        @DisplayName("Переход на страницу поиска ипроверка URL адресса")
+        @DisplayName("Переход на страницу поиска и проверка URL адресса")
         public void jumpInSearchWebLeafUrlTest() {
             getDriver().get("https://www.jetbrains.com/");
             Assertions.assertEquals("https://www.jetbrains.com/?s=full", jetBrainsPage.jumpInSearchWebLeafUrl(),
@@ -237,7 +234,6 @@ public class CodeWithMeTest extends BaseTest {
                     "НЕТ");
 
         }
-    }
 
     @Test
     @DisplayName("Попытка закрыть всплывающий Банерр Cookies")
@@ -248,19 +244,12 @@ public class CodeWithMeTest extends BaseTest {
 
     }
 
-    @Nested
-    class NestedTestBlock3 extends BaseTest{
-        @BeforeEach
-        void setUp1() {
-            super.setUp();
-            codeWithMePage = new CodeWithMePage(getDriver());
 
-        }
         @Test
         void emailAnswerTest() {
             codeWithMePage.emalIput();
             assertEquals("The JetBrains team", codeWithMePage.waitAnswerEmail());
         }
-    }
-
 }
+
+

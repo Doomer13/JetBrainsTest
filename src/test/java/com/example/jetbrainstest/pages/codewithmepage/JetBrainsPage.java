@@ -19,15 +19,17 @@ public class JetBrainsPage {
     WebDriver driver;
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
 
-    @FindBy(xpath = "//*[@aria-label=\"Developer Tools: Open submenu\" and @class=\"_mainMenuItem__action_1gpjikx_19\" ]")
+    @FindBy(xpath = "//*[@aria-label='Developer Tools: Open submenu' ]")
     private WebElement toDevelopment;
-    @FindBy(xpath = "//div/a/span/span[contains(@class, '_mainSubmenuItem__titleWithLogo_fdawee_1') and contains(text(), 'Code With Me')]")
+    @FindBy(xpath = "//div/a/span/span[contains(text(), 'Code With Me')]")
     private WebElement buttonCodeWithMe;
 
     @FindBy(xpath = "//*[@class=\"_wt-icon_0xycl _m_tjvq4i _icon_b46as5_570\"]")
     private WebElement languageButton;
     @FindBy(xpath = "//span[@class= 'wt-list-item__content'  and contains(text(), 'Русский')]")
     private WebElement russianLanguageButton;
+    @FindBy(xpath = "//*[@class=\"wt-button wt-button_mode_contrast wt-button_size_s wt-button_theme_dark wt-button_align-icon_left\"]")
+    private WebElement buttonСontinue;
 
     @FindBy(xpath = "//button[@aria-label='Open search']")
     private WebElement searchButton;
@@ -48,6 +50,7 @@ public class JetBrainsPage {
     public String CheckUrlAfterСhangeLanguage() {
         languageButton.click();
         russianLanguageButton.click();
+        buttonСontinue.click();
         LOG.infoWithScreenshot("Фото URL страницы, после смены языка ");
         return driver.getCurrentUrl();
     }
