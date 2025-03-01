@@ -8,10 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.LoggerFactory;
-
 import java.time.Duration;
-
-import static java.lang.Thread.sleep;
 
 public class JetBrainsPage {
 
@@ -37,9 +34,7 @@ public class JetBrainsPage {
     private WebElement searchField;
 
 
-
-
-    public String CodeWithMeCheckUrl() {
+    public String codeWithMeCheckUrl() {
 
         toDevelopment.click();
         buttonCodeWithMe.click();
@@ -47,7 +42,7 @@ public class JetBrainsPage {
         return driver.getCurrentUrl();
     }
 
-    public String CheckUrlAfterСhangeLanguage() {
+    public String checkUrlAfterСhangeLanguage() {
         languageButton.click();
         russianLanguageButton.click();
         buttonСontinue.click();
@@ -66,8 +61,7 @@ public class JetBrainsPage {
     }
 
     public String jumpInSearchWebLeafAndInputValue() {
-
-        CodeWithMePage cookies =new CodeWithMePage(driver);
+        CodeWithMePage cookies = new CodeWithMePage(driver);
         searchButton.click();
         searchField.click();
         searchField.sendKeys("Code With Me");
@@ -77,9 +71,9 @@ public class JetBrainsPage {
         LOG.infoWithScreenshot("Фото URL страницы, после перехода на новую страницу ");
         return value;
     }
+
     public JetBrainsPage(WebDriver driver) {
-        this.driver =driver;
+        this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-
 }

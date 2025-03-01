@@ -9,9 +9,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import static java.lang.Thread.sleep;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MyExtension.class)
 public class CodeWithMeTest extends BaseTest {
@@ -28,8 +26,8 @@ public class CodeWithMeTest extends BaseTest {
         getDriver().get("https://www.jetbrains.com/code-with-me/");
         //codeWithMePage.closeCookiesBunner();
         codeWithMePage = new CodeWithMePage(getDriver());
-        supportPage =new SupportPage(getDriver());
-        jetBrainsPage =new JetBrainsPage(getDriver());
+        supportPage = new SupportPage(getDriver());
+        jetBrainsPage = new JetBrainsPage(getDriver());
 
     }
 
@@ -52,7 +50,6 @@ public class CodeWithMeTest extends BaseTest {
         System.out.println(trueAnswer);
     }
 
-
     @ParameterizedTest(name = "#{index} -  email набран НЕ Правельно {0}")
     @CsvSource({"phobusgmailcom", "phobusgmail.com", "phobus@gmailcom", "phobus.gmai@lcom"})
     @DisplayName("Ввод НЕ правельного email")
@@ -63,7 +60,6 @@ public class CodeWithMeTest extends BaseTest {
         System.out.println(warningAnswer);
     }
 
-    //Вbдео
     @Test
     @DisplayName("Возпроизведение нужного видео по картинке")
     public void playerCheckImg() {
@@ -82,7 +78,7 @@ public class CodeWithMeTest extends BaseTest {
 
     @Test
     @DisplayName("Проверяем источник видео")
-    public void VideoPlayerSource() throws Exception {
+    public void videoPlayerSource() throws Exception {
         String source = codeWithMePage.videoPlayerSource();
         assertEquals("https://resources.jetbrains.com/storage/products/code-with-me/video/overview/1_intro.mp4#t=0.1", source);
     }
@@ -95,25 +91,19 @@ public class CodeWithMeTest extends BaseTest {
         System.out.println(duration + " Видео возпроизводилось");
     }
 
-
-    //
     @Test
     @DisplayName("Проверка кликабельности <Code With Me>, а также URL")
-    public void buttonCheck() {
-        Assertions.assertTrue(codeWithMePage.CodeWithMeClickable());
-        Assertions.assertEquals(codeWithMePage.CodeWithMeCheckUrl(), "https://www.jetbrains.com/code-with-me/", "URL не равен ожидаемому");
+    public void buttonCodeWithMeCheck() {
+        Assertions.assertTrue(codeWithMePage.codeWithMeClickable());
+        Assertions.assertEquals(codeWithMePage.codeWithMeCheckUrl(), "https://www.jetbrains.com/code-with-me/", "URL не равен ожидаемому");
     }
 
     @Test
     @DisplayName("Проверка доступности кнопки <Локальные решения>")
-    public void buttonCheck2() {
-        Assertions.assertTrue(codeWithMePage.LocalSolutionsClickable());
+    public void buttonCheckLocalSolutions() {
+        Assertions.assertTrue(codeWithMePage.localSolutionsClickable());
 
     }
-
-
-
-    // Страница Support
 
     @Test
     @DisplayName("Потверждение отсутвия в списке поддержки пункта <Россия>")
@@ -138,7 +128,6 @@ public class CodeWithMeTest extends BaseTest {
         Assertions.assertEquals(1, supportPage.notNecessarilyPage(), "Поля не верны");
     }
 
-
     @Test
     @DisplayName("Выбор страны/региона и проверка отображения текста в соответствующем поле")
     public void displayCountryField() {
@@ -147,7 +136,6 @@ public class CodeWithMeTest extends BaseTest {
 
     }
 
-    // Активности Кнопок
     @ParameterizedTest()
     @CsvSource({"0", "1", "2", "3"})
     @DisplayName("Проверяем активности больших кнопок кнопок")
@@ -156,91 +144,81 @@ public class CodeWithMeTest extends BaseTest {
     }
 
     @ParameterizedTest()
-    @CsvSource({"0", "1", "2", "3","4" ,"5" ,"6" ,"7" })
+    @CsvSource({"0", "1", "2", "3", "4", "5", "6", "7"})
     @DisplayName("Проверяем активности маленьких кнопок -пиктограмм")
     public void ButtonSmallDownCheckActivityTest(int a) {
         Assertions.assertTrue(codeWithMePage.buttonsCheckActivity2(a));
     }
 
-    //перемещение по странице и отображение кнопок
     @Test
     @DisplayName("перемещение по странице и отображение кнопок КНОПКА 2")
     public void isВisplayedTextAfterClickTest1() {
         Assertions.assertTrue(codeWithMePage.isВisplayedTextAfterClick1());
     }
+
     @Test
     @DisplayName("перемещение по странице и отображение кнопок КНОПКА 2")
     public void isВisplayedTextAfterClickTest2() {
         Assertions.assertTrue(codeWithMePage.isВisplayedTextAfterClick2());
     }
+
     @Test
     @DisplayName("перемещение по странице и отображение кнопок КНОПКА 2")
     public void isВisplayedTextAfterClickTest3() {
         Assertions.assertTrue(codeWithMePage.isВisplayedTextAfterClick3());
     }
+
     @Test
     @DisplayName("перемещение по странице и отображение кнопок КНОПКА 2")
     public void isВisplayedTextAfterClickTest4() {
         Assertions.assertTrue(codeWithMePage.isВisplayedTextAfterClick4());
     }
 
-
-
-
-
     @Test
     @DisplayName("Переход на страницу веб -страницу Code With Me")
     public void jumpInCodeWithMeWebSpace() {
         getDriver().get("https://www.jetbrains.com/");
         codeWithMePage.closeCookiesBunner();
-        Assertions.assertEquals(jetBrainsPage.CodeWithMeCheckUrl(), "https://www.jetbrains.com/code-with-me/",
+        Assertions.assertEquals(jetBrainsPage.codeWithMeCheckUrl(), "https://www.jetbrains.com/code-with-me/",
                 "URL не равен ожидаемому");
-
     }
 
-        @Test
-        @DisplayName("Смена Языка")
-        public void changelanguageTest() {
-            getDriver().get("https://www.jetbrains.com/");
-            codeWithMePage.closeCookiesBunner();
-            Assertions.assertEquals("https://www.jetbrains.com/ru-ru/", jetBrainsPage.CheckUrlAfterСhangeLanguage(),
-                    "URL не равен ожидаемому");
+    @Test
+    @DisplayName("Смена Языка")
+    public void changeLanguageTest() {
+        getDriver().get("https://www.jetbrains.com/");
+        codeWithMePage.closeCookiesBunner();
+        Assertions.assertEquals("https://www.jetbrains.com/ru-ru/", jetBrainsPage.checkUrlAfterСhangeLanguage(),
+                "URL не равен ожидаемому");
+    }
 
-        }
+    @Test
+    @DisplayName("Переход на страницу поиска и проверка URL адресса")
+    public void jumpInSearchWebLeafUrlTest() {
+        getDriver().get("https://www.jetbrains.com/");
+        Assertions.assertEquals("https://www.jetbrains.com/?s=full", jetBrainsPage.jumpInSearchWebLeafUrl(),
+                "URL не равен ожидаемому");
+    }
 
-        @Test
-        @DisplayName("Переход на страницу поиска и проверка URL адресса")
-        public void jumpInSearchWebLeafUrlTest() {
-            getDriver().get("https://www.jetbrains.com/");
-            Assertions.assertEquals("https://www.jetbrains.com/?s=full", jetBrainsPage.jumpInSearchWebLeafUrl(),
-                    "URL не равен ожидаемому");
-
-        }
-
-        @Test
-        @DisplayName("Переход на страницу поиска и проверка формы заполнения")
-        public void jumpInSearchWebLeafTest() {
-            getDriver().get("https://www.jetbrains.com/");
-            Assertions.assertEquals("Code With Me", jetBrainsPage.jumpInSearchWebLeafAndInputValue(),
-                    "НЕТ");
-
-        }
+    @Test
+    @DisplayName("Переход на страницу поиска и проверка формы заполнения")
+    public void jumpInSearchWebLeafTest() {
+        getDriver().get("https://www.jetbrains.com/");
+        Assertions.assertEquals("Code With Me", jetBrainsPage.jumpInSearchWebLeafAndInputValue(),
+                "НЕТ");
+    }
 
     @Test
     @DisplayName("Попытка закрыть всплывающий Банерр Cookies")
-    public void buttonCheck3() {
+    public void closeCookiesButtonTest() {
         codeWithMePage.closeCookiesBunner();
-        //codeWithMePage.PressMenu(); Демонстрация ошибки для скриншота
-        //codeWithMePage.ToolsPlaginsButton();
-
     }
 
-
-        @Test
-        void emailAnswerTest() {
-            codeWithMePage.emalIput();
-            assertEquals("The JetBrains team", codeWithMePage.waitAnswerEmail());
-        }
+    @Test
+    void emailAnswerTest() {
+        codeWithMePage.emalIput();
+        assertEquals("The JetBrains team", codeWithMePage.waitAnswerEmail());
+    }
 }
 
 

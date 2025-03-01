@@ -9,11 +9,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.LoggerFactory;
-
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public class SupportPage {
@@ -39,8 +36,11 @@ public class SupportPage {
     @FindBy(xpath = "//button[@data-test = 'footer-popup-confirm-country']")
     private WebElement sumbitCountry;
 
+    @FindBy(xpath = "//button[@data-jetbrains-cookies-banner-action='CLOSE']")
+    private WebElement closeCookiesButton;
 
-    // списки стран
+    @FindBy(xpath = "//*[@class ='jetbrains-cookies-banner-4__body']")
+    private WebElement cookiesBunner;
 
     public String pressCountry(String countruFromList){
         getCountry.click();
@@ -52,9 +52,7 @@ public class SupportPage {
                listСountry.get(i).click();
                sumbitCountry.click();
            }
-
         }
-
         return getCountry.getText();
     }
 
@@ -114,7 +112,6 @@ public class SupportPage {
        return listСountry.size();
     }
 
-//всякое
     public int notNecessarilyPage (){
         buttonWriteToUs.click();
         String one;
@@ -130,28 +127,14 @@ public class SupportPage {
     return a;
     }
 
-
-
-
-
-    //конец
-
-    @FindBy(xpath = "//button[@data-jetbrains-cookies-banner-action='CLOSE']")
-    private WebElement closeCookiesButton;
-
-    @FindBy(xpath = "//*[@class ='jetbrains-cookies-banner-4__body']")
-    private WebElement cookiesBunner;
-
     public void closeCookiesBunner() {
         LOG.infoWithScreenshot("Закрываем Cookies Баннер");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class ='jetbrains-cookies-banner-4__body']")));
         closeCookiesButton.click();
     }
 
-
     public SupportPage(WebDriver driver) {
         this.driver =driver;
         PageFactory.initElements(driver, this);
     }
-
 }
