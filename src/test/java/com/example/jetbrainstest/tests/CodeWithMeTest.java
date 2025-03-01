@@ -28,7 +28,6 @@ public class CodeWithMeTest extends BaseTest {
         codeWithMePage = new CodeWithMePage(getDriver());
         supportPage = new SupportPage(getDriver());
         jetBrainsPage = new JetBrainsPage(getDriver());
-
     }
 
     @Test
@@ -139,14 +138,14 @@ public class CodeWithMeTest extends BaseTest {
     @ParameterizedTest()
     @CsvSource({"0", "1", "2", "3"})
     @DisplayName("Проверяем активности больших кнопок кнопок")
-    public void ButtonBigTopCheckActivityTest(int a) {
+    public void buttonBigTopCheckActivityTest(int a) {
         Assertions.assertTrue(codeWithMePage.buttonsCheckActivity(a));
     }
 
     @ParameterizedTest()
     @CsvSource({"0", "1", "2", "3", "4", "5", "6", "7"})
     @DisplayName("Проверяем активности маленьких кнопок -пиктограмм")
-    public void ButtonSmallDownCheckActivityTest(int a) {
+    public void buttonSmallDownCheckActivityTest(int a) {
         Assertions.assertTrue(codeWithMePage.buttonsCheckActivity2(a));
     }
 
