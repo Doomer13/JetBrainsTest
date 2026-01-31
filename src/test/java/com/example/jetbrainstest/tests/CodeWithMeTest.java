@@ -24,15 +24,17 @@ public class CodeWithMeTest extends BaseTest {
     public void setUp() {
         super.setUp();
         getDriver().get("https://www.jetbrains.com/code-with-me/");
-        //codeWithMePage.closeCookiesBunner();
+
         codeWithMePage = new CodeWithMePage(getDriver());
         supportPage = new SupportPage(getDriver());
         jetBrainsPage = new JetBrainsPage(getDriver());
+
     }
 
     @Test
     @DisplayName("Ввод пустого email")
     public void enterEmptyEmail() {
+        codeWithMePage.closeCookiesBunner();
         String warningAnswer = codeWithMePage.getMessageWrongEmail("");
         assertEquals(warningAnswer, "This field is required", "E-mail не введен вовсе");
         System.out.println(warningAnswer);
@@ -41,7 +43,7 @@ public class CodeWithMeTest extends BaseTest {
     @Test
     @DisplayName("Ввод правельного email")
     public void enterTrueEmail() throws InterruptedException {
-        //codeWithMePage.CloseCookiesBunner();
+        codeWithMePage.closeCookiesBunner();
         String email = "phobus@gmail.com";
         codeWithMePage.enterEmail(email);
         String trueAnswer = codeWithMePage.getAnswerTrueEmail(email);

@@ -1,6 +1,7 @@
 package com.example.jetbrainstest.pages.codewithmepage;
 
 import com.example.jetbrainstest.AllureLogger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,19 +32,23 @@ public class CodeWithMePage {
     @FindBy(xpath = "//span[contains(text(),'Плагины для .NET-инструментов')]")
     private WebElement toolsPluginsPage;
 
-    @FindBy(xpath = "//button[@data-jetbrains-cookies-banner-action='CLOSE']")
+    @FindBy(xpath = "//button[@class='ch2-btn ch2-allow-all-btn ch2-btn-primary']")
     private WebElement closeCookiesButton;
+
     @FindBy(xpath = "//*[@class ='jetbrains-cookies-banner-4__body']")
     private WebElement cookiesBunner;
 
 
     @FindBy(xpath = "//input[@name='email']")
     private WebElement emailInput;
+
     @FindBy(xpath = "//span[contains(text(), 'Submit')]")
     private WebElement emailSubmit;
-    @FindBy(xpath = "//div[@class='_errorMessage_10bo8mm_596']")
+
+    @FindBy(xpath = "//div[@class='_errorMessage_7jpdal_376']")
     private WebElement messageWrongEmail;
-    @FindBy(xpath = "//p[1][contains(@class, 'wt-offset-top-24')]")
+
+    @FindBy(xpath = "//p[@class = '_rs-text-1_1owszn1_1 _rs-typography_theme_dark_1owszn1_1 _rs-text_hardness_hard_1owszn1_1 _submitMessage_1bpbey6_233']")
     private WebElement messageTrueEmail;
 
 
