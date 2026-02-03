@@ -19,9 +19,9 @@ public class SupportPage {
     WebDriver driver;
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
 
-    @FindBy(xpath = "//span[@class='_content_4qziqi_40']")
+    @FindBy(xpath = "//span[@class='_content_1ye8qjj_131']")
     private List<WebElement> country;
-    @FindBy(xpath = "//*[1][@data-target= 'trigger']")
+    @FindBy(xpath = "//*[@data-target= 'trigger']")
     private WebElement list;
 
     @FindBy(xpath = "//button[@class='_option_mp550j_68']")
@@ -108,8 +108,7 @@ public class SupportPage {
 
     public int countCountry() {
         list.click();
-        List<WebElement> listСountry = country ;
-       return listСountry.size();
+       return country.size();
     }
 
     public int notNecessarilyPage (){

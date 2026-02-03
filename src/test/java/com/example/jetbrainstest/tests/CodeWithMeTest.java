@@ -29,12 +29,14 @@ public class CodeWithMeTest extends BaseTest {
         supportPage = new SupportPage(getDriver());
         jetBrainsPage = new JetBrainsPage(getDriver());
 
+        codeWithMePage.closeCookiesBunner();
+
     }
 
     @Test
     @DisplayName("Ввод пустого email")
     public void enterEmptyEmail() {
-        codeWithMePage.closeCookiesBunner();
+
         String warningAnswer = codeWithMePage.getMessageWrongEmail("");
         assertEquals(warningAnswer, "This field is required", "E-mail не введен вовсе");
         System.out.println(warningAnswer);
@@ -43,7 +45,7 @@ public class CodeWithMeTest extends BaseTest {
     @Test
     @DisplayName("Ввод правельного email")
     public void enterTrueEmail() throws InterruptedException {
-        codeWithMePage.closeCookiesBunner();
+
         String email = "phobus@gmail.com";
         codeWithMePage.enterEmail(email);
         String trueAnswer = codeWithMePage.getAnswerTrueEmail(email);
@@ -55,8 +57,7 @@ public class CodeWithMeTest extends BaseTest {
     @CsvSource({"phobusgmailcom", "phobusgmail.com", "phobus@gmailcom", "phobus.gmai@lcom"})
     @DisplayName("Ввод НЕ правельного email")
     public void enterWrongEmail(String email) {
-        getDriver().get("https://www.jetbrains.com/code-with-me/");
-        codeWithMePage.closeCookiesBunner();
+
         String warningAnswer = codeWithMePage.getMessageWrongEmail(email);
         assertEquals(warningAnswer, "E-mail address is not correct", "E-mail введен правельно");
         System.out.println(warningAnswer);
@@ -65,6 +66,7 @@ public class CodeWithMeTest extends BaseTest {
     @Test
     @DisplayName("Возпроизведение нужного видео по картинке")
     public void playerCheckImg() {
+
         codeWithMePage.videoImg();
         String titleVideo = codeWithMePage.getNameOfVideo();
         assertEquals(titleVideo, "Introducing Code With Me - Collaborative Coding", "Не то видео");
@@ -89,7 +91,7 @@ public class CodeWithMeTest extends BaseTest {
     @DisplayName("Проверяем Возпроизводимость первого по счету видео Плээер")
     public void testHTML5VideoPlayer() throws Exception {
         double duration = codeWithMePage.videoPlayerPlayinable();
-        assertEquals(2, duration);
+        assertEquals(3, duration);
         System.out.println(duration + " Видео возпроизводилось");
     }
 
@@ -110,6 +112,7 @@ public class CodeWithMeTest extends BaseTest {
     @Test
     @DisplayName("Потверждение отсутвия в списке поддержки пункта <Россия>")
     public void СonfirmationOfabsence() {
+        getDriver().get("https://www.jetbrains.com/support/sales/?responseType=email-sales");
         supportPage.listCountry();
         //Assertions.assertFalse(supportPage.сheckRussiaInListCountry(), "России там быть НЕ должно");
         //supportPage.сheckCountryInListCountry("Украина");
@@ -119,8 +122,9 @@ public class CodeWithMeTest extends BaseTest {
     @Test
     @DisplayName("Проверка общего количесва стран в списвке")
     public void countingListCountry() {
+        getDriver().get("https://www.jetbrains.com/support/sales/?responseType=email-sales");
         System.out.println(supportPage.countCountry());
-        Assertions.assertEquals(237, supportPage.countCountry(), "Количество стран не равно 237");
+        Assertions.assertEquals(239, supportPage.countCountry(), "Количество стран не равно 237");
     }
 
     @RepeatedTest(3)
@@ -180,7 +184,6 @@ public class CodeWithMeTest extends BaseTest {
     @DisplayName("Переход на страницу веб -страницу Code With Me")
     public void jumpInCodeWithMeWebSpace() {
         getDriver().get("https://www.jetbrains.com/");
-        codeWithMePage.closeCookiesBunner();
         Assertions.assertEquals(jetBrainsPage.codeWithMeCheckUrl(), "https://www.jetbrains.com/code-with-me/",
                 "URL не равен ожидаемому");
     }
@@ -189,7 +192,6 @@ public class CodeWithMeTest extends BaseTest {
     @DisplayName("Смена Языка")
     public void changeLanguageTest() {
         getDriver().get("https://www.jetbrains.com/");
-        codeWithMePage.closeCookiesBunner();
         Assertions.assertEquals("https://www.jetbrains.com/ru-ru/", jetBrainsPage.checkUrlAfterСhangeLanguage(),
                 "URL не равен ожидаемому");
     }
