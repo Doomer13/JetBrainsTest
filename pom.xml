@@ -40,11 +40,30 @@
             <version>${allure.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>4.22.0</version>
-        </dependency>
+
+
+            <!-- Основная библиотека Selenium 4.40 -->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>4.40.0</version>
+            </dependency>
+
+            <!-- CDP для Chrome 144 (убирает warning) -->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-devtools-v144</artifactId>
+                <version>4.40.0</version>
+            </dependency>
+
+            <!-- Selenide (обновите тоже) -->
+            <dependency>
+                <groupId>com.codeborne</groupId>
+                <artifactId>selenide</artifactId>
+                <version>7.4.0</version> <!-- или новее -->
+            </dependency>
+
+
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>

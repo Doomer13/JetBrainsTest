@@ -56,6 +56,7 @@ public class CodeWithMeTest extends BaseTest {
     @DisplayName("Ввод НЕ правельного email")
     public void enterWrongEmail(String email) {
         getDriver().get("https://www.jetbrains.com/code-with-me/");
+        codeWithMePage.closeCookiesBunner();
         String warningAnswer = codeWithMePage.getMessageWrongEmail(email);
         assertEquals(warningAnswer, "E-mail address is not correct", "E-mail введен правельно");
         System.out.println(warningAnswer);
