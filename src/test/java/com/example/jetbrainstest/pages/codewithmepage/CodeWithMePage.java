@@ -1,10 +1,9 @@
 package com.example.jetbrainstest.pages.codewithmepage;
 
 import com.example.jetbrainstest.AllureLogger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.example.jetbrainstest.MyWait;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -22,6 +21,12 @@ public class CodeWithMePage {
     private final AllureLogger LOG = new AllureLogger(LoggerFactory.getLogger(CodeWithMePage.class));
     WebDriver driver;
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
+
+    public void setDriver(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(6));
+    }
+
 
     @FindBy(xpath = "//span[@data-test = 'menu-second-title-box-title']")
     private WebElement CodeWithMeButton;
@@ -52,14 +57,17 @@ public class CodeWithMePage {
     private WebElement messageTrueEmail;
 
 
-    @FindBy(css = "#player a[href^=\"https://www.youtube.com/watch\"]")
+    @FindBy(xpath = "//a[contains(@class, 'ytp-title-link') and contains(@class, 'yt-uix-sessionlink')]")
     private WebElement videoTitleYouTube;
+
     @FindBy(xpath = "//button[@data-test='button']")
     private WebElement watchVideoButton;
+
     @FindBy(xpath = "//img[@srcset]")
     private WebElement imgVideoButton;
-    @FindBy(xpath = "//iframe[@class='wt-youtube-player__player']")
-    private WebElement frame;
+
+    @FindBy(xpath = "//iframe [@src = 'https://a26669750187.cdn.optimizely.com/client_storage/a26669750187.html']")
+    private WebElement frameOne;
     @FindBy(xpath = "//*[1][@controlslist ='nodownload']")
     private WebElement videoPlayer;
 
@@ -93,7 +101,7 @@ public class CodeWithMePage {
     private WebElement buttonFour;
     @FindBy(xpath = "//h2[contains(text(), 'Strike the perfect balance between powerful collaboration and strong security')]")
     private WebElement tranceToTextFour;
-    @FindBy(xpath = "     //*[@href='/code-with-me/on-prem/' and contains(text(), 'Learn more')]")
+    @FindBy(xpath = "   //*[@href='/code-with-me/on-prem/' and contains(text(), 'Learn more')]")
     private WebElement tranceToLearnMoreFour;
 
     @FindBy(xpath = "//*[@id='rand']")
@@ -104,6 +112,67 @@ public class CodeWithMePage {
     private WebElement answerField;
     @FindBy(xpath = "//*[@class='value']")
     private WebElement messadge;
+
+
+    public void toScroll (WebElement element){
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void scrollAndClick(WebDriver driver, WebElement element) {
+        // 1. Максимальный размер окна (БЕЗ maximize для headless)
+        driver.manage().window().setSize(new Dimension(1920, 3000)); // ↑ Выше!
+
+        // 2. ДИАГНОСТИКА - покажите результат
+        System.out.println("Перед скроллом:");
+        System.out.println("Размер окна: " + driver.manage().window().getSize());
+        System.out.println("Элемент: " + element.isDisplayed() + ", " + element.isEnabled());
+        System.out.println("Координаты: " + element.getLocation());
+
+        // 3. МЯГКИЙ скролл с проверкой
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block: 'center', behavior: 'instant'});",
+                element
+        );
+
+        // 4. Жёсткий скролл по пикселям (если scrollIntoView не работает)
+        try {
+            Thread.sleep(1000); // Даём рендеру время
+            Point point = element.getLocation();
+            ((JavascriptExecutor) driver).executeScript(
+                    "window.scrollTo(0, " + (point.getY() - 400) + ");"
+            );
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // 5. ПОВТОРНАЯ диагностика
+        System.out.println("После скролла:");
+        System.out.println("Элемент: " + element.isDisplayed() + ", " + element.isEnabled());
+
+        // 6. КЛИК БЕЗ ожидания (если элемент найден)
+        try {
+            new Actions(driver)
+                    .moveToElement(element)
+                    .pause(Duration.ofMillis(500))
+                    .click()
+                    .perform();
+        } catch (Exception e) {
+            // 🚨 JS клик - ПОСЛЕДНИЙ шанс
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].click(); arguments[0].dispatchEvent(new Event('click'));",
+                    element
+            );
+        }
+    }
+
+
 
     public boolean buttonsCheckActivity(int index) {
         LOG.info("Проверяем активность 4-рех кнопок");
@@ -120,48 +189,29 @@ public class CodeWithMePage {
         return smallButtonsActivity2.get(index).isEnabled();
     }
 
-    public boolean isВisplayedTextAfterClick1() {
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        closeCookiesButton.click();
+    public boolean isDisplayedTextAfterClick1() {
+
+        toScroll(buttonOne);
         buttonOne.click();
         return tranceToTextOne.isDisplayed();
     }
 
-    public boolean isВisplayedTextAfterClick2() {
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        closeCookiesButton.click();
+    public boolean isDisplayedTextAfterClick2() {
+        toScroll(buttonTwo);
         buttonTwo.click();
         return tranceToTextTwo.isDisplayed();
     }
 
-    public boolean isВisplayedTextAfterClick3() {
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        closeCookiesButton.click();
+    public boolean isDisplayedTextAfterClick3() {
+        toScroll(buttonThree);
         buttonThree.click();
         return tranceToTextThree.isDisplayed();
     }
 
-    public boolean isВisplayedTextAfterClick4() {
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        closeCookiesButton.click();
+    public boolean isDisplayedTextAfterClick4() {
+        toScroll(buttonFour);
         buttonFour.click();
-        return tranceToLearnMoreFour.isEnabled();
+        return tranceToTextFour.isDisplayed();
     }
 
     public void enterEmail(String email) {
@@ -185,18 +235,22 @@ public class CodeWithMePage {
     public void videoImg() {
         LOG.info("Возпроизведение видео по картинке");
         imgVideoButton.click();
-        driver.switchTo().frame(frame);
-    }
-
-    public void videoButton() {
-        LOG.info("Возпроизведение видео по кнопке <Whatch>");
-        watchVideoButton.click();
-        driver.switchTo().frame(frame);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameOne));
     }
 
     public String getNameOfVideo() {
         LOG.infoWithScreenshot("Получение названия видео");
-        return videoTitleYouTube.getText();
+        String title = videoTitleYouTube.getText().trim();
+        driver.switchTo().defaultContent();
+        return title;
+    }
+
+    public void videoButton() {
+        LOG.info("Возпроизведение видео по кнопке <Whatch>");
+        scrollAndClick(driver , watchVideoButton);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameOne));
     }
 
     public double videoPlayerPlayinable() throws Exception {
