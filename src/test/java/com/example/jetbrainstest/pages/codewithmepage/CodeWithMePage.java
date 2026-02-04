@@ -310,27 +310,6 @@ public class CodeWithMePage {
         return emailField.getAttribute("data-email");
     }
 
-    public void emalIput() {
-        driver.get("https://www.jetbrains.com/code-with-me/#benefit-from-enterprise-grade-security");
-        emailInput.sendKeys(emailGenerate());
-        emailSubmit.click();
-    }
-
-    public String waitAnswerEmail() {
-        driver.get("https://www.mohmal.com/ru/inbox");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(200));
-
-        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-        LOG.info("запус таймера обновления страницы каждую минуту");
-        scheduler.scheduleAtFixedRate(() -> driver.navigate().refresh(), 0, 1, TimeUnit.MINUTES);
-
-        wait.until(ExpectedConditions.visibilityOf(answerField));
-        answerField.click();
-        LOG.infoWithScreenshot("Фото псиьма");
-
-        return messadge.getText();
-    }
-
     public CodeWithMePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);

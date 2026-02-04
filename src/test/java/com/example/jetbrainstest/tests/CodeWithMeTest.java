@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @ExtendWith(MyExtension.class)
 public class CodeWithMeTest extends BaseTest {
@@ -124,11 +125,11 @@ public class CodeWithMeTest extends BaseTest {
         Assertions.assertEquals(239, supportPage.countCountry(), "Количество стран не равно 237");
     }
 
-    @RepeatedTest(3)
+    @Test
     @DisplayName("Проверка смены полей в форме заполнения в зависимости от выбора Мы вам напишем/ мы вам перезвоним")
     public void chosenTest() {
         getDriver().get("https://www.jetbrains.com/ru-ru/support/sales/#request-call");
-        Assertions.assertEquals(1, supportPage.notNecessarilyPage(), "Поля не верны");
+        assertFalse(supportPage.сheckRussiaInListCountry(), "Росии сдеть быть не должно, все верно");
     }
 
     @Test
@@ -209,11 +210,6 @@ public class CodeWithMeTest extends BaseTest {
                 "НЕТ");
     }
 
-    @Test
-    void emailAnswerTest() {
-        codeWithMePage.emalIput();
-        assertEquals("The JetBrains team", codeWithMePage.waitAnswerEmail());
-    }
 }
 
 

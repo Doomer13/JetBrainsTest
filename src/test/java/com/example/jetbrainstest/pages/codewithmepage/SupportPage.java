@@ -1,7 +1,9 @@
 package com.example.jetbrainstest.pages.codewithmepage;
 
 import com.example.jetbrainstest.AllureLogger;
+import com.example.jetbrainstest.MyWait;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,13 +13,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
+import org.openqa.selenium.ElementClickInterceptedException;
 
 public class SupportPage {
 
     private final AllureLogger LOG = new AllureLogger(LoggerFactory.getLogger(SupportPage.class));
     WebDriver driver;
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
+
+    MyWait myWait = new MyWait(5);
 
     @FindBy(xpath = "//span[@class='_content_1ye8qjj_131']")
     private List<WebElement> country;
@@ -29,12 +35,18 @@ public class SupportPage {
     @FindBy(xpath = "//div[@class='_label_6gddzg_396']")
     private List<WebElement> notNecessarilyList;
 
+
+
     @FindBy(xpath = "//button[@data-test = 'footer-country-button']")
     private WebElement getCountry;
-    @FindBy(xpath = "/html/body/div[5]/div/div/div[2]/div/div/div/div/div[2]/svg/path")
-    private WebElement expandList;
+
+    @FindBy(xpath = "//div[@class='_iconsWrapper_1m1udjp_143']")
+    private List <WebElement> expandList;
+
     @FindBy(xpath = "//button[@data-test = 'footer-popup-confirm-country']")
     private WebElement sumbitCountry;
+
+
 
     @FindBy(xpath = "//button[@data-jetbrains-cookies-banner-action='CLOSE']")
     private WebElement closeCookiesButton;
@@ -42,17 +54,62 @@ public class SupportPage {
     @FindBy(xpath = "//*[@class ='jetbrains-cookies-banner-4__body']")
     private WebElement cookiesBunner;
 
-    public String pressCountry(String countruFromList){
+    public String pressCountry(String countryFromList) {
         getCountry.click();
-        closeCookiesButton.click();
-        expandList.click();
-        List<WebElement> listСountry = country;
-        for (int i = 0; i < listСountry.size(); i++) {
-           if (listСountry.get(i).getText().equals(countruFromList)){
-               listСountry.get(i).click();
-               sumbitCountry.click();
-           }
+        expandList.get(1).click();
+
+        List<WebElement> listCountry = country;
+
+        for (WebElement element : listCountry) {
+            if (element.getText().trim().equals(countryFromList)) {
+                // 🔧 ИСПРАВЛЕННАЯ ЛОГИКА с защитой от перекрытия
+                robustClick(element);
+                sumbitCountry.click();
+                break;
+            }
         }
+        return getCountry.getText();
+    }
+
+    // Добавь эти методы в класс
+    private void robustClick(WebElement element) {
+        // 1. Прокрутка к элементу
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block: 'center'});", element);
+
+        // 2. Маленькая пауза
+        try { Thread.sleep(300); } catch (InterruptedException e) {}
+
+        try {
+            // 3. Обычный клик
+            element.click();
+        } catch (ElementClickInterceptedException e) {
+            // 4. JS клик если перекрытие
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        }
+    }
+
+    // Еще более надежный вариант с поиском по тексту
+    public String pressCountryRobust(String countryFromList) {
+        getCountry.click();
+        expandList.get(1).click();
+
+        // Ждем появления списка
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(d -> country.size() > 0);
+
+        // Ищем по тексту напрямую через XPath (НАДЕЖНЕЕ!)
+        String xpath = String.format("//span[@class='_content_1ye8qjj_131' and contains(text(), '%s')]",
+                countryFromList);
+
+        WebElement targetCountry = driver.findElement(By.xpath(xpath));
+
+        // Robust клик
+        robustClick(targetCountry);
+
+        myWait.clickable(targetCountry);
+        sumbitCountry.click();
+
         return getCountry.getText();
     }
 
@@ -97,33 +154,26 @@ public class SupportPage {
         }
     }
 
-    public void streamCountryMethod(){
-        list.click();
-        List<WebElement> listСountry = driver.findElements(By.xpath("//span[@class='_content_4qziqi_40']"));
-        Stream<WebElement> stream = listСountry.stream();
-        stream.forEach(WebElement::getText);
-        stream.forEach(System.out::println);
+    public String pressCountryStreem(String countryFromList) {
+        getCountry.click();
+        expandList.get(1).click();
 
+        Optional<WebElement> countryElement = country.stream()
+                .filter(e -> e.getText().equals(countryFromList))
+                .findFirst();
+
+        countryElement.ifPresent(element -> {
+            element.click();
+            sumbitCountry.click();
+        });
+
+        return getCountry.getText();
     }
+
 
     public int countCountry() {
         list.click();
        return country.size();
-    }
-
-    public int notNecessarilyPage (){
-        buttonWriteToUs.click();
-        String one;
-        String two;
-        String phone = "Телефон (необязательно)";
-        String company = "Компания (необязательно)";
-        one = notNecessarilyList.get(0).getText();
-        two = notNecessarilyList.get(1).getText();
-        int a =0;
-        if (one.equals(phone) && two.equals(company)){
-        a = 1;
-        }
-    return a;
     }
 
     public void closeCookiesBunner() {
