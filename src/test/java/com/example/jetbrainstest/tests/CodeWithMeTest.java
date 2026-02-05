@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @ExtendWith(MyExtension.class)
 public class CodeWithMeTest extends BaseTest {
-
     private CodeWithMePage codeWithMePage;
     private SupportPage supportPage;
     private JetBrainsPage jetBrainsPage;
@@ -25,19 +24,15 @@ public class CodeWithMeTest extends BaseTest {
     public void setUp() {
         super.setUp();
         getDriver().get("https://www.jetbrains.com/code-with-me/");
-
         codeWithMePage = new CodeWithMePage(getDriver());
         supportPage = new SupportPage(getDriver());
         jetBrainsPage = new JetBrainsPage(getDriver());
-
         codeWithMePage.closeCookiesBunner();
-
     }
 
     @Test
     @DisplayName("Ввод пустого email")
     public void enterEmptyEmail() {
-
         String warningAnswer = codeWithMePage.getMessageWrongEmail("");
         assertEquals(warningAnswer, "This field is required", "E-mail не введен вовсе");
         System.out.println(warningAnswer);
@@ -46,7 +41,6 @@ public class CodeWithMeTest extends BaseTest {
     @Test
     @DisplayName("Ввод правельного email")
     public void enterTrueEmail() throws InterruptedException {
-
         String email = "phobus@gmail.com";
         codeWithMePage.enterEmail(email);
         String trueAnswer = codeWithMePage.getAnswerTrueEmail(email);
@@ -58,7 +52,6 @@ public class CodeWithMeTest extends BaseTest {
     @CsvSource({"phobusgmailcom", "phobusgmail.com", "phobus@gmailcom", "phobus.gmai@lcom"})
     @DisplayName("Ввод НЕ правельного email")
     public void enterWrongEmail(String email) {
-
         String warningAnswer = codeWithMePage.getMessageWrongEmail(email);
         assertEquals(warningAnswer, "E-mail address is not correct", "E-mail введен правельно");
         System.out.println(warningAnswer);
@@ -68,14 +61,12 @@ public class CodeWithMeTest extends BaseTest {
     @DisplayName("Возпроизведение нужного видео по картинке")
     public void playerCheckImg() {
         codeWithMePage.videoImg();
-
     }
 
     @Test
     @DisplayName("Возпроизведение нужного видео по Кнопке")
     public void playerCheckButton() {
         codeWithMePage.videoButton();
-
     }
 
     @Test
@@ -209,7 +200,6 @@ public class CodeWithMeTest extends BaseTest {
         Assertions.assertEquals("Code With Me", jetBrainsPage.jumpInSearchWebLeafAndInputValue(),
                 "НЕТ");
     }
-
 }
 
 

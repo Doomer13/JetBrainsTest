@@ -126,22 +126,18 @@ public class CodeWithMePage {
     }
 
     public static void scrollAndClick(WebDriver driver, WebElement element) {
-        // 1. Максимальный размер окна (БЕЗ maximize для headless)
         driver.manage().window().setSize(new Dimension(1920, 3000)); // ↑ Выше!
 
-        // 2. ДИАГНОСТИКА - покажите результат
         System.out.println("Перед скроллом:");
         System.out.println("Размер окна: " + driver.manage().window().getSize());
         System.out.println("Элемент: " + element.isDisplayed() + ", " + element.isEnabled());
         System.out.println("Координаты: " + element.getLocation());
 
-        // 3. МЯГКИЙ скролл с проверкой
         ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].scrollIntoView({block: 'center', behavior: 'instant'});",
                 element
         );
 
-        // 4. Жёсткий скролл по пикселям (если scrollIntoView не работает)
         try {
             Thread.sleep(1000); // Даём рендеру время
             Point point = element.getLocation();
@@ -152,11 +148,9 @@ public class CodeWithMePage {
             Thread.currentThread().interrupt();
         }
 
-        // 5. ПОВТОРНАЯ диагностика
         System.out.println("После скролла:");
         System.out.println("Элемент: " + element.isDisplayed() + ", " + element.isEnabled());
 
-        // 6. КЛИК БЕЗ ожидания (если элемент найден)
         try {
             new Actions(driver)
                     .moveToElement(element)
@@ -164,7 +158,6 @@ public class CodeWithMePage {
                     .click()
                     .perform();
         } catch (Exception e) {
-            // 🚨 JS клик - ПОСЛЕДНИЙ шанс
             ((JavascriptExecutor) driver).executeScript(
                     "arguments[0].click(); arguments[0].dispatchEvent(new Event('click'));",
                     element
@@ -176,7 +169,6 @@ public class CodeWithMePage {
 
     public boolean buttonsCheckActivity(int index) {
         LOG.info("Проверяем активность 4-рех кнопок");
-        //manifestedButtons1.remove(0);
         return manifestedButtons2.get(index).isEnabled();
     }
 
@@ -190,7 +182,6 @@ public class CodeWithMePage {
     }
 
     public boolean isDisplayedTextAfterClick1() {
-
         toScroll(buttonOne);
         buttonOne.click();
         return tranceToTextOne.isDisplayed();
@@ -218,7 +209,6 @@ public class CodeWithMePage {
         LOG.info("Ввод email");
         emailInput.sendKeys(email);
         emailSubmit.click();
-
     }
 
     public String getAnswerTrueEmail(String email) {
@@ -254,7 +244,6 @@ public class CodeWithMePage {
     }
 
     public double videoPlayerPlayinable() throws Exception {
-
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         String source1 = (String) jsExecutor.executeScript("return arguments[0].currentSrc;", videoPlayer);
 
@@ -268,7 +257,6 @@ public class CodeWithMePage {
         LOG.infoWithScreenshot("Получаем длительность видео на текущий момент");
         double currentTime = (Double) jsExecutor.executeScript("return arguments[0].currentTime;", videoPlayer);
         double floorValue = Math.floor(currentTime);
-
         return floorValue;
     }
 
@@ -300,7 +288,6 @@ public class CodeWithMePage {
 
     public void closeCookiesBunner() {
         LOG.infoWithScreenshot("Закрываем Cookies Баннер");
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class ='jetbrains-cookies-banner-4__body']")));
         closeCookiesButton.click();
     }
 

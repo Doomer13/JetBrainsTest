@@ -8,9 +8,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.LoggerFactory;
+
 import java.time.Duration;
 import java.util.List;
 
@@ -26,29 +26,22 @@ public class JetBrainsPage {
     private WebElement buttonFindTools;
     @FindBy(xpath = "//a[@href='/code-with-me/']")
     private List<WebElement> buttonCodeWithMe;
-
-
     @FindBy(xpath = "//*[@data-test='language-picker']")
     private WebElement languageButton;
     @FindBy(xpath = "//span[@class= 'wt-list-item__content'  and contains(text(), 'Русский')]")
     private WebElement russianLanguageButton;
     @FindBy(xpath = "//*[@class='wt-col-inline']")
     private WebElement buttonСontinue;
-
     @FindBy(xpath = "//button[@aria-label='Open search']")
     private WebElement searchButton;
     @FindBy(xpath = "//input[@data-hj-whitelist='true']")
     private WebElement searchField;
 
-
     public String codeWithMeCheckUrl() {
-
         toDevelopment.click();
         buttonFindTools.click();
-
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", buttonCodeWithMe.get(1));
-
         LOG.infoWithScreenshot("Фото URL страницы, после нажатия кнопки <Code With Me> ");
         return driver.getCurrentUrl();
     }
@@ -60,9 +53,6 @@ public class JetBrainsPage {
         LOG.infoWithScreenshot("Фото URL страницы, после смены языка ");
         return driver.getCurrentUrl();
     }
-
-
-
 
     public String jumpInSearchWebLeafUrl() {
         searchButton.click();
@@ -79,15 +69,11 @@ public class JetBrainsPage {
         return driver.getCurrentUrl();
     }
 
-
-
-
     public String jumpInSearchWebLeafAndInputValue() {
         CodeWithMePage cookies = new CodeWithMePage(driver);
         searchButton.click();
         searchField.click();
 
-        // Построчный ввод через цепочку Actions (3-й вариант)
         Actions actions = new Actions(driver);
         actions.sendKeys(searchField, "Code With Me")
                 .sendKeys(Keys.ENTER)
